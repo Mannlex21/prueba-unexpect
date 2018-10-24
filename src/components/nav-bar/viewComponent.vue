@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <li style="float:left"><a class="active" href="#about"><span class="material-icons">face</span></a></li>
+        <li style="float:left"><a class="active" href="#about"><span style="color:red;" class="material-icons">menu</span></a></li>
     </ul>
 </template>
 
@@ -10,7 +10,11 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: white;
+    -webkit-box-shadow: inset 0px -4px 9px -2px rgba(133,130,133,1);
+    -moz-box-shadow: inset 0px -4px 9px -2px rgba(133,130,133,1);
+    box-shadow: inset 0px -4px 9px -2px rgba(133,130,133,1);
+    border-bottom: 1px rgb(150,150,150) solid;
 }
 
 li {
@@ -19,17 +23,12 @@ li {
 
 li a {
     display: block;
-    color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 5px 8px;
     text-decoration: none;
+    border-right: 1px rgb(200,200,200) solid;
 }
-
 /* Change the link color to #111 (black) on hover */
 li a:hover {
-    background-color: #111;
-}
-.active {
-    background-color: #4CAF50;
 }
 </style>
