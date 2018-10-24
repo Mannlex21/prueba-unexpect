@@ -13,22 +13,18 @@
         <textarea align="left" type="text" class="inputMultilineaLiga" v-model="msg"/>
         <button class="buttonGenerarLiga" @click="generarLiga()">GENERAR LIGA</button>
       </div>
-      <!-- <div class="div">
-        <input class="inputLogin" type="text" v-model="email">
-        <input class="inputLogin" type="password" v-model="email">
-        <button class="buttonLogin">Iniciar sesion</button>
-        <a class="urlLogin" >Olvidé mi contraseña</a>
-      </div> -->
     </div> 
 </template>
 <script>
 import Store from "./store";
+import StoreHistorial from "../historial/store"
 export default {
   data(){
     return{
       telNumero:"",
       lada:"521",
-      msg:""
+      msg:"",
+      date:""
     }
   },
   methods:{
@@ -37,7 +33,32 @@ export default {
       var result = "";
       result = url+this.lada+this.telNumero.replace(/\s/g, '')+"?text="+this.msg.replace(/\s/g, '%20').replace(/\r?\n|\r/g, '%20')
       Store.commit("setTelefono",result);
-      this.$router.push('ligaConsulta');
+      StoreHistorial.commit("setData",
+      {
+        tel:this.telNumero.replace(/\s/g, ''),
+        msg:this.msg,
+        date:this.getDate()
+      })
+      //this.$router.push('ligaConsulta');
+      this.$router.push('historial');
+    },
+    getDate(){
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+          dd = '0'+dd
+      } 
+
+      if(mm<10) {
+          mm = '0'+mm
+      } 
+
+      today = mm + '/' + dd + '/' + yyyy;
+      // document.write(today);
+      return today;
     }
   }
 }
