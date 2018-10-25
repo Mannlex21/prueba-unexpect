@@ -1,10 +1,36 @@
 <template>
-    <ul>
-        <li style="float:left"><a class="active" href="#about"><span style="color:red;" class="material-icons">menu</span></a></li>
-    </ul>
+    <div>
+        <div class="menu" v-if="showMenu">
+        </div>
+        <ul>
+            <li style="float:left"><a class="active" @click="clickMenu()"><span style="color:red;" class="material-icons">menu</span></a></li>
+        </ul>
+    </div>
 </template>
+<script>
+export default {
+  data(){
+    return{
+      showMenu:false
+    }
+  },
+  methods:{
+    clickMenu(){
+      this.showMenu = !this.showMenu
+    }
+  }
+}
+</script>
+
 
 <style scoped>
+.menu{
+    background: grey;
+    width: 15vh;
+    height: 100vh;
+    display: inline;
+    float: left;
+}
 ul {
     list-style-type: none;
     margin: 0;

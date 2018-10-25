@@ -5,8 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    login:true
+    login:false
   },
-  mutations: {},
-  actions: {}
+  mutations: {
+    loginChange(state,newState){
+      state.login=!state.login
+    }
+  },
+  actions: {
+  },
+  getters: {
+    getlogin(state){
+      return function(){return state.login} 
+    } 
+  }
 });

@@ -30,18 +30,19 @@
         <div class="divContent xl3">
           <div class="divLigaInfo wrapper">
               <div class="xl6" style="position: relative;">
-                <button class="btnCopiar "><span style="color:white;" class="material-icons">file_copy</span></button>
+                <button class="btnCopiar "><div style="color:white;" class="material-icons">file_copy</div></button>
               </div>  
               <div class="xl6" style="position: relative;">
-                <button class="btnEditar"><span style="color:white;" class="material-icons">edit</span></button>
+                <button class="btnEditar"><div style="color:white;" class="material-icons">edit</div></button>
               </div>
           </div>
         </div>
       </div>
-      <button @click="regresar()">regresar</button>
+      <!-- <button @click="regresar()">regresar</button> -->
     </div> 
 </template>
 <script>
+import StoreGeneral from "../../../store"
 import Store from "./store";
 export default {
   data(){
@@ -57,7 +58,12 @@ export default {
     ligas(){
       return Store.state.historialLigas;
     }
-  }
+  },
+  beforeCreate() {
+    if(StoreGeneral.state.login==false){
+      this.$router.push('login');
+    }
+  },
 }
 </script>
 <style scoped>
@@ -99,6 +105,12 @@ p{
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
 }
+@media screen and (max-width: 366px) {
+  .divContent{
+    overflow-x: auto;
+    white-space: nowrap;
+  } 
+}
 .btnCopiar{
   background: #F32F52;
   padding: 0;
@@ -107,8 +119,10 @@ p{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 35px;
-  height: 35px;
+  width: 70%;
+  height: 70%;
+  max-width: 35px;
+  max-height: 35px;
 }
 .btnEditar{
   background: #3B4F61;
@@ -118,8 +132,10 @@ p{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 35px;
-  height: 35px;
+  width: 70%;
+  height: 70%;
+  max-width: 35px;
+  max-height: 35px;
 }
 .wrapper{
   display:-ms-flexbox;
@@ -156,5 +172,14 @@ p{
   -ms-flex:0 0 50%;
   flex:0 0 50%;
   max-width:50%
+}
+
+.material-icons {
+  font-size: 24px;
+}
+@media screen and (max-width: 415px) {
+  .material-icons {
+    font-size: 12px;
+  }
 }
 </style>

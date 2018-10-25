@@ -1,21 +1,74 @@
 <template style="display: inline-block;">
     <div class="divPrincipal">
       <div class="div">
-        <input class="inputLogin" type="text" v-model="email">
-        <input class="inputLogin" type="password" v-model="email">
-        <button class="buttonLogin">Iniciar sesion</button>
-        <a class="urlLogin" >Olvidé mi contraseña</a>
+        <input v-on:keyup.enter="login" class="inputLogin" type="text" v-model="user">
+        <input v-on:keyup.enter="login" class="inputLogin" type="password" v-model="pass">
+        <button class="buttonLogin" @click="login">Iniciar sesion</button>
+        <p class="msgError">{{msgError}}</p>
+        <p class="msgOk">{{msgOk}}</p>
+        <a class="urlLogin" @click="rememberLogin">Olvidé mi contraseña</a>
       </div>
     </div>    
 </template>
 
 <script>
+import StoreGeneral from "../../../store"
+import Store from "./store"
 export default {
   data(){
     return{
-      email:''
+      user:'',
+      pass:'',
+      msgError:'',
+      msgOk:''
     }
-  }
+  },
+  mounted(){    
+    StoreGeneral.watch(StoreGeneral.getters.getlogin, n => {
+      if(n){
+        this.$router.push('/');
+      }
+    })
+  },
+  watch:{
+    user(x,y){
+      this.msgError=''
+      this.msgOk=''
+    },
+    pass(x,y){
+      this.msgError=''
+      this.msgOk=''
+    }
+  },
+  methods:{
+    login(){
+      this.msgError=''
+      this.msgOk=''
+      var user = this.user;
+      var pass = this.pass; 
+      if(user!='' && pass!=''){
+        
+        var r = Store.state.users.filter(el => el.user ==user && el.pass == pass);
+        if(r.length>0){
+          StoreGeneral.commit("loginChange")
+        }else{
+          this.msgError='Datos incorrectos'  
+        }
+      }else{
+        this.msgError='Campos vacios'
+      }
+      // StoreGeneral.commit("loginChange")
+    },
+    rememberLogin(){
+      this.msgError=''
+      this.msgOk='User:admin. Password:admin'
+    }
+  },
+  beforeCreate() {
+    if(StoreGeneral.state.login==true){
+      this.$router.push('/');
+    }
+  },
 }
 </script>
 <style scoped>
@@ -54,7 +107,7 @@ button,input { border:none; }
   display: table;
   margin: 0 auto;
   margin-top: 15vh;
-  width: 95vw;
+  width: 100%;
   height: 85vh;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,c8c8c8+100,969696+100,646464+100 */
   background: #ffffff; /* Old browsers */
@@ -66,5 +119,17 @@ button,input { border:none; }
 .div{
   display: table;
   margin: 0 auto;
+}
+.msgError{
+  padding: 0;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  color: red;
+}
+.msgOk{
+  padding: 0;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  color: green;
 }
 </style>

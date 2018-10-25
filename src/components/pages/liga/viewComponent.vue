@@ -16,6 +16,7 @@
     </div> 
 </template>
 <script>
+import StoreGeneral from "../../../store"
 import Store from "./store";
 import StoreHistorial from "../historial/store"
 export default {
@@ -60,23 +61,35 @@ export default {
       // document.write(today);
       return today;
     }
-  }
+  },
+  beforeCreate() {
+    console.log(StoreGeneral.state.login)
+    if(StoreGeneral.state.login==false){
+      // StoreGeneral.commit("loginChange")
+      this.$router.push('login');
+    }
+  },
 }
 </script>
 <style scoped>
 button,input { border:none; } 
 .inputLiga{
-  display: inline-block;
+  
+  display: block;
+  float: left;
   padding: 0;
   height: 30px;
-  width: 50vw;
+  width: 60%;
+  
   border: 1px rgb(150,150,150) solid;
-  margin-right: 10px;
+  margin-right: 1%;
+  
+  box-sizing: border-box;
 }
 .inputMultilineaLiga{
   display: block;
   padding: 0;
-  width: 90vw;
+  width: 100%;
   height: 100px;
   border: 1px rgb(150,150,150) solid;
   margin-right: 10px;
@@ -86,14 +99,17 @@ button,input { border:none; }
   text-align: left;
 }
 .buttonLiga{
-  width: 25vw;
+  box-sizing: border-box;
+  width: 30%;
   height: 30px;
   color: white;
   background: darkcyan; 
-  margin-right: 10px;
+  margin-right: 1%;
+  display: block;
+  float: left;
 }
 .buttonGenerarLiga{
-  width: 70vw;
+  width: 70%;
   height: 30px;
   color: white;
   background: darkcyan;
@@ -102,7 +118,7 @@ button,input { border:none; }
 .divPrincipal{
   display: table;
   margin: 0 auto;
-  width: 95vw;
+  width: 100%;
 }
 .titulo_h1{
   font-size:18px;
@@ -117,10 +133,11 @@ button,input { border:none; }
 }
 .divForm{
   display: table;
-  padding:0 0 0 5vw;
+  width: 100%;
 }
 .botonCancelar{
-  width: 25vw;
-  margin-left: 4vw;
+  display: block;
+  float: left;
+  width: 8%;
 }
 </style>

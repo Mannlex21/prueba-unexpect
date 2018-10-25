@@ -7,6 +7,7 @@
     </div> 
 </template>
 <script>
+import StoreGeneral from "../../../store"
 import Store from "./store"
 export default {
   data(){
@@ -31,7 +32,12 @@ export default {
     reedirect(){
       window.open(this.linkWhatsapp, "_blank");
     }
-  }
+  },
+  beforeCreate() {
+    if(StoreGeneral.state.login==false){
+      this.$router.push('login');
+    }
+  },
 }
 </script>
 <style scoped>
@@ -48,7 +54,7 @@ button,input { border:none; }
   text-align: left;
 }
 .buttonGenerarLiga{
-  width: 70vw;
+  width: 90%;
   height: 30px;
   color: white;
   background: darkcyan;
@@ -58,7 +64,7 @@ button,input { border:none; }
 .divPrincipal{
   display: table;
   margin: 0 auto;
-  width: 95vw;
+  width: 100%;
 }
 .titulo_h1{
   font-size:18px;
@@ -80,6 +86,8 @@ button,input { border:none; }
   display: block;
   color: black;
   text-decoration: underline black;
+  width: 30%;
+  margin: 0 auto;
 }
 .linkEditar:hover{
   cursor: pointer;

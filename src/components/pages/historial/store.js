@@ -10,7 +10,6 @@ export default new Vuex.Store({
   mutations: {
     setData(state,newState){
       state.historialLigas.push(newState)
-      console.log(state.historialLigas)
     }
   },
   actions: {}
