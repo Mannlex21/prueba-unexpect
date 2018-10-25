@@ -63,7 +63,6 @@ export default {
     }
   },
   beforeCreate() {
-    console.log(StoreGeneral.state.login)
     if(StoreGeneral.state.login==false){
       // StoreGeneral.commit("loginChange")
       this.$router.push('login');

@@ -1,3 +1,5 @@
 module.exports = {
-  baseUrl: '/prueba-unexpect/'
+  baseUrl: process.env.NODE_ENV === 'production'
+    ? '/prueba-unexpect/'
+    : '/'
 }
