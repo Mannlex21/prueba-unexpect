@@ -26,7 +26,7 @@ export default {
   mounted(){    
     StoreGeneral.watch(StoreGeneral.getters.getlogin, n => {
       if(n){
-        this.$router.push('/');
+        this.$router.push('/liga');
       }
     })
   },
@@ -47,7 +47,6 @@ export default {
       var user = this.user;
       var pass = this.pass; 
       if(user!='' && pass!=''){
-        
         var r = Store.state.users.filter(el => el.user ==user && el.pass == pass);
         if(r.length>0){
           StoreGeneral.commit("loginChange")
@@ -66,7 +65,7 @@ export default {
   },
   beforeCreate() {
     if(StoreGeneral.state.login==true){
-      this.$router.push('/');
+      this.$router.push('/liga');
     }
   },
 }
