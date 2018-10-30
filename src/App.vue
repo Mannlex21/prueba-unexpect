@@ -25,6 +25,7 @@
       </div>
       <ul class="navbar" v-if="login">
           <li style="float:left"><a class="active" @click="clickMenu()"><span style="color:red;" class="material-icons">menu</span></a></li>
+          <li style="float:left" class="logo"><img src="./img/logo.png" alt="Smiley face" height="32" width="50"></li>
       </ul>
       <div :style="showMenu?'width:70vw':'width:100vw'" class="contentPrincipal">
         <router-view></router-view>
@@ -37,7 +38,6 @@
 
 <script>
 import stylesMaterial         from "./css/icons_material.css";
-import HelloWorld from "./components/HelloWorld.vue";
 import NavBar from "./components/nav-bar/viewComponent.vue";
 import Store from "./store";
 export default {
@@ -64,7 +64,7 @@ export default {
   mounted(){    
     Store.watch(Store.getters.getlogin, n => {
       if(!n){
-        this.$router.push('login');
+        this.$router.push('/login');
       }
     })
   },
@@ -109,7 +109,10 @@ body{
   color: #2c3e50;
   width:100%;
 }
-
+.logo{
+  margin-left: 7px;
+  margin-top: 4px;
+}
 .menu{
     background: #b3b2b2;
     width: 30vw;

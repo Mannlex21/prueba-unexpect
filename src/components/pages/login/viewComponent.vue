@@ -1,6 +1,7 @@
 <template style="display: inline-block;">
     <div class="divPrincipal">
       <div class="div">
+        <img src="../../../img/logo.png" alt="Smiley face" height="70" width="100">
         <input v-on:keyup.enter="login" class="inputLogin" type="text" v-model="user">
         <input v-on:keyup.enter="login" class="inputLogin" type="password" v-model="pass">
         <button class="buttonLogin" @click="login">Iniciar sesion</button>

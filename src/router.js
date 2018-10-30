@@ -1,5 +1,4 @@
 import VueRouter  from 'vue-router'
-import RoutesComponents from './components/routes'
 import LigaWhatsapp from "./components/pages/liga/viewComponent.vue";
 import LigaWhatsappConsulta from "./components/pages/liga/viewComponent_Consult.vue";
 import Historial from "./components/pages/historial/viewComponent.vue";

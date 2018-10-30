@@ -11,7 +11,8 @@
       <div class="divForm">
         <p class="inputTitulo">Tú mensaje</p>
         <textarea align="left" type="text" class="inputMultilineaLiga" v-model="msg"/>
-        <button class="buttonGenerarLiga" @click="generarLiga()">GENERAR LIGA</button>
+        <button class="buttonGenerarLiga" @click="(mode=='nuevo')?generarLiga():(mode=='edit')?guardarLiga():generarLiga()">{{(mode=='nuevo')?'GENERAR LIGA':(mode=='edit')?'GUARDAR LIGA':'GENERAR LIGA'}}</button>
+        <p class="msgError">{{errorMsg}}</p>
       </div>
     </div> 
 </template>
@@ -22,26 +23,72 @@ import StoreHistorial from "../historial/store"
 export default {
   data(){
     return{
-      telNumero:"",
       lada:"521",
-      msg:"",
-      date:""
+      date:"",
+      errorMsg:""
+    }
+  },
+  watch:{
+    telNumero(x,y){
+      this.errorMsg=''
+    },
+    msg(x,y){
+      this.errorMsg=''
     }
   },
   methods:{
     generarLiga(){
-      var url = "https://wa.me/"
-      var result = "";
-      result = url+this.lada+this.telNumero.replace(/\s/g, '')+"?text="+this.msg.replace(/\s/g, '%20').replace(/\r?\n|\r/g, '%20')
-      Store.commit("setTelefono",result);
-      StoreHistorial.commit("setData",
-      {
-        tel:this.telNumero.replace(/\s/g, ''),
-        msg:this.msg,
-        date:this.getDate()
-      })
-      //this.$router.push('ligaConsulta');
-      this.$router.push('historial');
+      if(this.telNumero!='' && this.msg!=''){
+        var regexStr = /^[0-9\\-]*$/;
+        if(regexStr.test(this.telNumero)){
+          var url = "https://wa.me/"
+          var result = "";
+          result = url+this.lada+this.telNumero.replace(/\s/g, '')+"?text="+this.msg.replace(/\s/g, '%20').replace(/\r?\n|\r/g, '%20')
+          Store.commit("setTelefono",result);
+          StoreHistorial.commit("setData",
+          {
+            tel:this.telNumero.replace(/\s/g, ''),
+            msg:this.msg,
+            date:this.getDate()
+          })
+          Store.commit('resetParams')
+          this.$router.push('/ligaConsulta');
+
+        }else{
+          this.errorMsg="Inserte un numero valido"
+        }
+        
+      }else{
+        this.errorMsg="Llene todos los campos"
+      }
+      
+      // this.$router.push('historial');
+    },
+    guardarLiga(){
+      if(this.telNumero!='' && this.msg!=''){
+        var regexStr = /^[0-9\\-]*$/;
+        if(regexStr.test(this.telNumero)){
+          var url = "https://wa.me/"
+          var result = "";
+          result = url+this.lada+this.telNumero.replace(/\s/g, '')+"?text="+this.msg.replace(/\s/g, '%20').replace(/\r?\n|\r/g, '%20')
+          Store.commit("setTelefono",result);
+          StoreHistorial.commit("setDataUpdate",
+          {
+            tel:this.telNumero.replace(/\s/g, ''),
+            msg:this.msg,
+            date:this.getDate(),
+            id:Store.state.idLiga
+          })
+          Store.commit('resetParams')
+          this.$router.push('/ligaConsulta');
+
+        }else{
+          this.errorMsg="Inserte un numero valido"
+        }
+        
+      }else{
+        this.errorMsg="Llene todos los campos"
+      }
     },
     getDate(){
       var today = new Date();
@@ -57,15 +104,43 @@ export default {
           mm = '0'+mm
       } 
 
-      today = mm + '/' + dd + '/' + yyyy;
+      today = dd + '/' + mm + '/' + yyyy;
       // document.write(today);
       return today;
     }
   },
+  computed:{
+    telNumero: {
+      // getter
+      get: function () {
+        return Store.state.telNumero
+      },
+      // setter
+      set: function (newValue) {
+        Store.commit('setTel',newValue)
+      }
+    },
+    msg: {
+      // getter
+      get: function () {
+        return Store.state.msg
+      },
+      // setter
+      set: function (newValue) {
+        Store.commit('setMsg',newValue)
+      }
+    },
+    mode(){
+      return Store.state.mode
+    }
+  },
+  created(){
+    
+  },
   beforeCreate() {
     if(StoreGeneral.state.login==false){
       // StoreGeneral.commit("loginChange")
-      this.$router.push('login');
+      this.$router.push('/login');
     }
   },
 }
@@ -106,6 +181,7 @@ button,input { border:none; }
   margin-right: 1%;
   display: block;
   float: left;
+  font-size: 10px;
 }
 .buttonGenerarLiga{
   width: 70%;
@@ -138,5 +214,12 @@ button,input { border:none; }
   display: block;
   float: left;
   width: 8%;
+}
+.msgError{
+  padding: 0;
+  padding-top: 10px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  color: red;
 }
 </style>
