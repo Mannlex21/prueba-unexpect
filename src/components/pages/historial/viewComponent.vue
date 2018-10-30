@@ -92,7 +92,7 @@ export default {
       var dd = this.dateF.split('-')[2]
       // var d1 = new Date(yyyy +'-'+mm+'-'+dd)
       this.dateFinal = new Date(yyyy +'-'+mm+'-'+dd)
-      Store.commit('searchingDate')
+      Store.commit('searching',this.searchValue)
     }
   },
   methods:{

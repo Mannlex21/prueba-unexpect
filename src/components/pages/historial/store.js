@@ -74,23 +74,35 @@ export default new Vuex.Store({
     searching(state,newState){
       if(newState!=""){
         state.historialLigas = state.respaldoHistorialLigas
-        state.historialLigas = state.historialLigas.filter((i)=>{
-          return  i.tel.match(newState) 
-        })
+        if(state.dateInicial!='' && state.dateFinal!=''){
+          state.historialLigas = state.historialLigas.filter((i)=>{
+            var yyyy = i.date.split('/')[2]
+            var mm = i.date.split('/')[1]
+            var dd = i.date.split('/')[0]
+            var date = new Date(yyyy +'-'+mm+'-'+dd)
+            return  (date>=state.dateInicial && date <= state.dateFinal && i.tel.match(newState))
+          })
+        }else{
+         
+          state.historialLigas = state.historialLigas.filter((i)=>{
+            return  i.tel.match(newState) 
+          })
+        }
+        
       }else{
-        state.historialLigas = state.respaldoHistorialLigas
+        if(state.dateInicial!='' && state.dateFinal!=''){
+          state.historialLigas = state.historialLigas.filter((i)=>{
+            var yyyy = i.date.split('/')[2]
+            var mm = i.date.split('/')[1]
+            var dd = i.date.split('/')[0]
+            var date = new Date(yyyy +'-'+mm+'-'+dd)
+            return  (date>=state.dateInicial && date <= state.dateFinal)
+          })
+        }else{
+          state.historialLigas = state.respaldoHistorialLigas
+        }
+        
       }
-    },
-    searchingDate(state,newState){
-      state.historialLigas = state.respaldoHistorialLigas
-      state.historialLigas = state.historialLigas.filter((i)=>{
-        var yyyy = i.date.split('/')[2]
-        var mm = i.date.split('/')[1]
-        var dd = i.date.split('/')[0]
-        var date = new Date(yyyy +'-'+mm+'-'+dd)
-        return  (date>=state.dateInicial && date <= state.dateFinal)
-      })
-      console.log(state.historialLigas)
     }
   },
   actions: {}
